@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simple Chat</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="mystyle.css">
+  </head>
+  <body class="container">
+    <h1>Simple Chat</h1>
+    <div class="container main_chat">
+      <div class="logged_in col-xs-2">
+        <h5>Users</h5>
+      </div>
+      <div class="col-xs-10 message_container">
+      <h5>Messages</h5>
+      <ul></ul>
+      </div>
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon">Anonymous:</span>
+      <input type="text" class="form-control" id="chat_input" placeholder="Type your message...">
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.0.2.js"></script>
+    <script src="myjs.js"></script>
+
+    <script>
+      var socket = io.connect("http://192.168.1.119:8080");
+      socket.on("connect", function(data) {
+        var nickname = "";
+        while(nickname.length == 0) {
+          nickname = prompt("Please enter a nickname.");
+        }
+        $(".input-group-addon").html("<strong>" + nickname + "</strong>:");
+        socket.emit("join", nickname);
+      });
+
+      // For receiving the messages
+      socket.on("messages", function(data) {
+        console.log(data);
+        listAppend(data);
+      });
+
+      // For broadcasting the messages
+      $(document).keypress(function(e) {
+        if($("#chat_input").is(":focus") && e.keyCode == 13 && $("#chat_input").val().length > 0) {
+          sent_data = $(".input-group-addon").html() + " " + $("#chat_input").val();
+          listAppend(sent_data);
+          socket.emit("messages", sent_data);
+          $("#chat_input").val("");
+        }
+      });
+
+    </script>
+  </body>
+</html>
