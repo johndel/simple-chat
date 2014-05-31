@@ -6,4 +6,4 @@ A simple chat just to play with socket.io and the express framework. Hope you li
 Install node.js and then install express and socket.io with `npm install socket.io -g` and `npm install express -g` .
 
 ## Usage
-Type `node app.js`, change the http://192.168.1.119/ from the index.html to whatever your ip or domain is (maybe http://localhost:8080) and visit the http://yourdomain:8080 .
+Change the line `var socket = io.connect("http://localhost:8080");` from the index.html to whatever your ip or domain is, if you want to try it in something else other than localhost. For running it locally and as a standalone, type `node app.js` and visit the http://localhost:8080 or whatever your domain or ip is.
