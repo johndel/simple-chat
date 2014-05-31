@@ -28,3 +28,11 @@ function getDateTime() {
 function listAppend(data) {
   $(".message_container ul").prepend("<li>[" + getDateTime() + "] " + data + "</li>");
 }
+
+function updateUserList(data) {
+  html = "";
+  $.each(data, function(index, nickname) {
+    html = html + "<li>" + nickname + "</li>";
+  });
+  $(".current_users").html(html);
+}

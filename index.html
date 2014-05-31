@@ -14,6 +14,7 @@
     <div class="container main_chat">
       <div class="logged_in col-xs-2">
         <h5>Users</h5>
+        <ul class="current_users"></ul>
       </div>
       <div class="col-xs-10 message_container">
       <h5>Messages</h5>
@@ -31,7 +32,7 @@
     <script src="myjs.js"></script>
 
     <script>
-      var socket = io.connect("http://192.168.1.119:8080");
+      var socket = io.connect("http://130.43.80.211:8080");
       socket.on("connect", function(data) {
         var nickname = "";
         while(nickname.length == 0) {
@@ -39,6 +40,12 @@
         }
         $(".input-group-addon").html("<strong>" + nickname + "</strong>:");
         socket.emit("join", nickname);
+      });
+
+      // For updating user list
+      socket.on("update-users", function(data) {
+        console.log(data);
+        updateUserList(data);
       });
 
       // For receiving the messages
