@@ -32,7 +32,7 @@
     <script src="myjs.js"></script>
 
     <script>
-      var socket = io.connect("http://130.43.80.211:8080");
+      var socket = io.connect("http://localhost:8080");
       socket.on("connect", function(data) {
         var nickname = "";
         while(nickname.length == 0) {
